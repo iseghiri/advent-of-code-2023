@@ -3,10 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/iseghiri/advent-of-code-2023/internal/utils"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 }
 
 func SecondStar() {
-	input := ReadInput("/day2/input")
+	input := utils.ReadInput("/day2/input")
 	fileScanner := bufio.NewScanner(input)
 	fileScanner.Split(bufio.ScanLines)
 	result := 0
@@ -25,7 +26,6 @@ func SecondStar() {
 		patternStrings = append(patternStrings, fmt.Sprintf("\\d+ %s", color))
 	}
 	pattern := strings.Join(patternStrings, "|")
-	fmt.Println("pattern : ", pattern)
 	re := regexp.MustCompile(pattern)
 	for fileScanner.Scan() {
 		colorsCounter := map[string]int{
@@ -37,7 +37,7 @@ func SecondStar() {
 		for _, match := range matches {
 			parts := strings.Split(match, " ")
 			number, err := strconv.Atoi(parts[0])
-			check(err)
+			utils.Check(err)
 			color := parts[1]
 			if number > colorsCounter[color] {
 				colorsCounter[color] = number
@@ -57,7 +57,7 @@ func SecondStar() {
 }
 
 func FirstStar() {
-	input := ReadInput("/day2/input")
+	input := utils.ReadInput("/day2/input")
 	fileScanner := bufio.NewScanner(input)
 	fileScanner.Split(bufio.ScanLines)
 	result := 0
@@ -84,7 +84,7 @@ func FirstStar() {
 		for _, match := range matches {
 			parts := strings.Split(match, " ")
 			number, err := strconv.Atoi(parts[0])
-			check(err)
+			utils.Check(err)
 			color := parts[1]
 			if number > colorsCounter[color] {
 				isValid = false
@@ -108,7 +108,7 @@ func FirstStar() {
 func GetGameId(line string) int {
 	gameAndId := strings.Split(strings.Split(line, ":")[0], " ")
 	gameID, err := strconv.Atoi(gameAndId[1])
-	check(err)
+	utils.Check(err)
 	return gameID
 }
 
@@ -119,17 +119,4 @@ func getKeys(m map[string]int) []string {
 		keys = append(keys, k)
 	}
 	return keys
-}
-
-func ReadInput(path string) *os.File {
-	pwd, _ := os.Getwd()
-	input, err := os.Open(pwd + path)
-	check(err)
-	return input
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
 }

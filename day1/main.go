@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
+
+	"github.com/iseghiri/advent-of-code-2023/internal/utils"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 }
 
 func Input1() int {
-	input := ReadInput("/day1/input1")
+	input := utils.ReadInput("/day1/input1")
 	fileScanner := bufio.NewScanner(input)
 	fileScanner.Split(bufio.ScanLines)
 	var result int
@@ -32,7 +33,7 @@ func Input1() int {
 }
 
 func Input2() int {
-	input := ReadInput("/day1/input1")
+	input := utils.ReadInput("/day1/input1")
 	fileScanner := bufio.NewScanner(input)
 	fileScanner.Split(bufio.ScanLines)
 	var result int
@@ -102,27 +103,14 @@ func getKeys(m map[string]string) []string {
 func BuildCalibrationValue(digits []rune) int {
 	twoDigitNumber := (string(digits[0]) + string(digits[len(digits)-1]))
 	calibrationValue, err := strconv.Atoi(twoDigitNumber)
-	check(err)
+	utils.Check(err)
 	return calibrationValue
 }
 
 func BuildCalibrationValue2(digits []string) int {
 	twoDigitNumber := (string(digits[0]) + string(digits[len(digits)-1]))
 	calibrationValue, err := strconv.Atoi(twoDigitNumber)
-	check(err)
+	utils.Check(err)
 	fmt.Println("calibrationValue : ", calibrationValue)
 	return calibrationValue
-}
-
-func ReadInput(path string) *os.File {
-	pwd, _ := os.Getwd()
-	input, err := os.Open(pwd + path)
-	check(err)
-	return input
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
 }
